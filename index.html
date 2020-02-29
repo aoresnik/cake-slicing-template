@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style media="screen" type="text/css">
+
+canvas { display:block; } /* To remove the scrollbars */
+
+</style>
+<script type="text/javascript">
+
+/* Based on https://stackoverflow.com/questions/4288253/html5-canvas-100-width-height-of-viewport */
+function main() {
+  (function() {
+    var canvas = document.getElementById('canvas0'),
+    context = canvas.getContext('2d');
+
+    // resize the canvas to fill browser window dynamically
+    window.addEventListener('resize', resizeCanvas, false);
+
+    // refresh on every change
+    document.getElementById("nslices").addEventListener('input', resizeCanvas, false);
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth - 20;
+      canvas.height = window.innerHeight - 50;
+
+      /**
+      * Your drawings need to be inside this function otherwise they will be reset when
+      * you resize the browser window and the canvas goes will be cleared.
+      */
+      drawStuff();
+    }
+    resizeCanvas();
+
+    function drawStuff() {
+      var nslices = parseInt(document.getElementById("nslices").value, 10);
+      context.beginPath();
+      var center_x = canvas.width/2;
+      var center_y = canvas.height/2;
+      var r = Math.min(center_x, center_y);
+      context.arc(center_x, center_y, r, 0, 2 * Math.PI);
+      context.stroke();
+      for (var i = 0; i < nslices; i++) {
+          context.beginPath();
+          context.moveTo(center_x, center_y);
+          context.lineTo(center_x + r*Math.sin(2*Math.PI*i/nslices), center_y + r*Math.cos(2*Math.PI*i/nslices));
+          context.stroke();
+      }
+    }
+  })();
+};
+
+</script>
+</head>
+<body onload="main()">
+<canvas id="canvas0"></canvas>
+<form>
+<input type="text" id="nslices" value="5">
+</form>
+</body>
+</html>
