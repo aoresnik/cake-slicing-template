@@ -31,18 +31,29 @@ function main() {
 
     function drawStuff() {
       var nslices = parseInt(document.getElementById("nslices").value, 10);
-      context.beginPath();
       var center_x = canvas.width/2;
       var center_y = canvas.height/2;
       var r = Math.min(center_x, center_y);
-      context.arc(center_x, center_y, r, 0, 2 * Math.PI);
-      context.stroke();
+      const N_CIRCLES = 10;
+      var a_slice = 2*Math.PI/nslices;
       for (var i = 0; i < nslices; i++) {
+          var a = 2*Math.PI*i/nslices;
+          context.lineWidth = 1;
+          for (var j = 1; j < N_CIRCLES; j++) {
+              context.beginPath();
+              context.arc(center_x, center_y, j*r/N_CIRCLES, a-(a_slice/20), a+(a_slice/20));
+              context.stroke();
+          }
+          context.lineWidth = 2;
           context.beginPath();
           context.moveTo(center_x, center_y);
-          context.lineTo(center_x + r*Math.sin(2*Math.PI*i/nslices), center_y + r*Math.cos(2*Math.PI*i/nslices));
+          context.lineTo(center_x + r*Math.cos(a), center_y + r*Math.sin(a));
           context.stroke();
       }
+      context.lineWidth = 2;
+      context.beginPath();
+      context.arc(center_x, center_y, r, 0, 2 * Math.PI);
+      context.stroke();
     }
   })();
 };
