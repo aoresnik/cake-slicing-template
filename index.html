@@ -39,9 +39,9 @@ function main() {
       for (var i = 0; i < nslices; i++) {
           var a = 2*Math.PI*i/nslices;
           context.lineWidth = 1;
-          for (var j = 1; j < N_CIRCLES; j++) {
+          for (var j = 6; j < N_CIRCLES; j++) {
               context.beginPath();
-              context.arc(center_x, center_y, j*r/N_CIRCLES, a-(a_slice/20), a+(a_slice/20));
+              context.arc(center_x, center_y, j*r/N_CIRCLES, a-(a_slice/15), a+(a_slice/15));
               context.stroke();
           }
           context.lineWidth = 2;
